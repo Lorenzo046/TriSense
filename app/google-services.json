@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "118884854079",
+    "project_id": "trisense-8a38f",
+    "storage_bucket": "trisense-8a38f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118884854079:android:bb7e85f274b92734da0b8a",
+        "android_client_info": {
+          "package_name": "com.example.trisense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXfCx2-D8ds3GnIphdXVAJaebRJQRScaA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
