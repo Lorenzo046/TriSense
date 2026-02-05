@@ -1,9 +1,25 @@
+# File specifici di Android Studio / IDE
 *.iml
-.gradle
-/local.properties
+.idea/workspace.xml
+.idea/libraries
+.idea/modules.xml
+.idea/assetWizardSettings.xml
+.idea/navEditor.xml
+.idea/caches
+.idea/shelf
 .idea/
 .DS_Store
-/build
+
+# File di build e output
+.gradle/
+build/
 /captures
-.externalNativeBuild
-.cxx
+*.apk
+*.aar
+*.bundle
+
+# Configurazione locale (SDK path, API keys)
+local.properties
+
+# Backup e log
+*.log

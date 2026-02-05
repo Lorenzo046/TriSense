@@ -1,4 +1,4 @@
-package com.example.trisense;
+package it.unisa.trisense;
 
 import org.junit.Test;
 

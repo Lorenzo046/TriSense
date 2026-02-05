@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:118884854079:android:bb7e85f274b92734da0b8a",
         "android_client_info": {
-          "package_name": "com.example.trisense"
+          "package_name": "it.unisa.trisense"
         }
       },
       "oauth_client": [],

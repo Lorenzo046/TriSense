@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.trisense"
+    namespace = "it.unisa.trisense"
     compileSdkVersion("android-36.1")
 
     defaultConfig {
-        applicationId = "com.example.trisense"
+        applicationId = "it.unisa.trisense"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
