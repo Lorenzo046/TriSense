@@ -3,6 +3,7 @@ package it.unisa.trisense.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,14 +12,29 @@ import com.google.android.material.card.MaterialCardView;
 import it.unisa.trisense.R;
 import it.unisa.trisense.models.Game;
 
-
-
 public class GameSelectionActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameselection);
+
+        TextView txtWelcome = findViewById(R.id.txtWelcome);
+
+        // Fetch User Data
+        com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance()
+                .getCurrentUser();
+        if (currentUser != null) {
+            com.google.firebase.firestore.FirebaseFirestore.getInstance()
+                    .collection("users").document(currentUser.getUid())
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            String username = documentSnapshot.getString("username");
+                            txtWelcome.setText("Bentornato " + username);
+                        }
+                    });
+        }
 
         // Creiamo i giochi usando il model
         Game game1 = new Game(1, getString(R.string.game_1));
