@@ -22,7 +22,6 @@ public class Game2Activity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.toolbar); //prende toolbar da xml
         setSupportActionBar(toolbar); //imposta come ActionBar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //mostra la freccia per tornare all'activity parent
-        getSupportActionBar().setTitle("");
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
