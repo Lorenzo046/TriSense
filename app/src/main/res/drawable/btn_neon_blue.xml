@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="@color/neon_blue" />
+            <stroke android:width="2dp" android:color="@color/white" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="8dp" />
+            <solid android:color="#2000F3FF" /> <!-- Semi-transparent neon blue -->
+            <stroke android:width="2dp" android:color="@color/neon_blue" />
+        </shape>
+    </item>
+</selector>

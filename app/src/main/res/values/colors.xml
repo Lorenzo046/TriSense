@@ -1,5 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Modern Arcade / Neo-Retro Palette -->
+    <color name="neon_blue">#00F3FF</color>
+    <color name="neon_magenta">#FF00FF</color>
+    <color name="neon_orange">#FF5722</color>
+    <color name="neon_cyan">#00FFFF</color>
+    <color name="deep_purple_bg">#120024</color>
+    <color name="deep_purple_dark">#090012</color>
+    <color name="terminal_green">#39FF14</color>
+    <color name="glass_white">#20FFFFFF</color>
+    <color name="glass_stroke">#40FFFFFF</color>
 </resources>

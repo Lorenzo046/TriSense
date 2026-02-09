@@ -41,6 +41,7 @@ public class Game3Activity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
         rvLeaderboard = findViewById(R.id.rvLeaderboard);

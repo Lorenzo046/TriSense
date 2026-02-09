@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="315"
+        android:startColor="@color/deep_purple_dark"
+        android:endColor="@color/deep_purple_bg"
+        android:type="linear" />
+    <ordering>
+        <!-- Optional: Add a subtle overlay or pattern if we could, but for now a gradient is good -->
+    </ordering>
+</shape>

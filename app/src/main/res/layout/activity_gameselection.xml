@@ -5,20 +5,39 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
+    android:background="@drawable/bg_main_gradient"
     tools:context=".activities.GameSelectionActivity">
 
     <TextView
         android:id="@+id/testoTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="sans-serif-black"
-        android:text="TriSense"
-        android:textColor="@android:color/white"
+        android:text="TRI-SENSE"
+        android:textColor="@color/neon_cyan"
         android:textSize="48sp"
+        android:letterSpacing="0.1"
+        android:shadowColor="@color/neon_blue"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btnProfile"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo_profile"
+        android:contentDescription="Profile"
+        app:tint="@color/neon_cyan"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -26,10 +45,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Select your challenge"
-        android:textColor="#B3FFFFFF"
+        android:fontFamily="monospace"
+        android:text="SELECT MISSION"
+        android:textColor="@color/neon_magenta"
         android:textSize="18sp"
+        android:letterSpacing="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/testoTitle" />
@@ -38,11 +58,11 @@
         android:id="@+id/txtWelcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Bentornato..."
-        android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="monospace"
+        android:text="PLAYER 1 READY"
+        android:textColor="@color/terminal_green"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subTitle" />
@@ -64,14 +84,16 @@
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
-            app:rippleColor="@android:color/transparent">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_blue"
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/card_glass"
                 android:padding="16dp">
 
                 <ImageView
@@ -79,25 +101,31 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:contentDescription="@string/game_1"
-                    android:src="@drawable/logo_gioco1"
+                    android:src="@drawable/logo_gioco1_sf"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/txtGame1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     />
 
                 <TextView
                     android:id="@+id/txtGame1"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="sans-serif-black"
                     android:text="@string/game_1"
-                    android:textColor="#1A237E"
-                    android:textSize="22sp"
+                    android:textColor="@color/neon_blue"
+                    android:textSize="24sp"
+                    android:letterSpacing="0.05"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgGame1"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -111,14 +139,16 @@
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
-            app:rippleColor="@android:color/transparent">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/neon_orange"
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/card_glass"
                 android:padding="16dp">
 
                 <ImageView
@@ -126,25 +156,29 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:contentDescription="@string/game_2"
-                    android:src="@drawable/logo_gioco2"
+                    android:src="@drawable/logo_gioco2_sf"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/txtGame2"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     />
 
                 <TextView
                     android:id="@+id/txtGame2"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="sans-serif-black"
                     android:text="@string/game_2"
-                    android:textColor="#1B5E20"
-                    android:textSize="22sp"
+                    android:textColor="@color/neon_orange"
+                    android:textSize="24sp"
+                    android:letterSpacing="0.05"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgGame2"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -158,14 +192,16 @@
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardBackgroundColor="#FFFFFF"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="8dp"
-            app:rippleColor="@android:color/transparent">
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/terminal_green"
+            app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@drawable/card_glass"
                 android:padding="16dp">
 
                 <ImageView
@@ -173,25 +209,30 @@
                     android:layout_width="64dp"
                     android:layout_height="64dp"
                     android:contentDescription="@string/game_3"
-                    android:src="@drawable/logo_gioco3"
+                    android:src="@drawable/logo_gioco3_sf"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/txtGame3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="packed"
                     />
 
                 <TextView
                     android:id="@+id/txtGame3"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:fontFamily="sans-serif-medium"
+                    android:fontFamily="sans-serif-black"
                     android:text="@string/game_3"
-                    android:textColor="#B71C1C"
-                    android:textSize="22sp"
+                    android:textColor="@color/terminal_green"
+                    android:textSize="24sp"
+                    android:letterSpacing="0.05"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/imgGame3"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>

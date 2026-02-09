@@ -5,27 +5,50 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_main_gradient"
     tools:context=".activities.RegisterActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        app:navigationIconTint="@color/white"
+        app:title=""
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-black"
-        android:text="Registrazione"
-        android:textSize="32sp"
+        android:text="NEW PLAYER"
+        android:textColor="@color/neon_magenta"
+        android:textSize="40sp"
+        android:letterSpacing="0.05"
+        android:shadowColor="@color/neon_blue"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/usernameLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
-        android:layout_marginTop="32dp"
-        android:hint="Username"
+        android:layout_marginTop="48dp"
+        android:hint="PLAYER TAG (USERNAME)"
+        style="@style/Widget.TriSense.TextInputLayout"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintTextColor="@color/neon_cyan"
+        android:textColorHint="@color/glass_stroke"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title">
@@ -34,7 +57,10 @@
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:background="@drawable/edit_text_neon"
+            android:textColor="@color/white"
+            android:padding="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -43,7 +69,12 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:hint="Email"
+        android:hint="INSERT COIN (EMAIL)"
+        style="@style/Widget.TriSense.TextInputLayout"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintTextColor="@color/neon_cyan"
+        android:textColorHint="@color/glass_stroke"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameLayout">
@@ -52,7 +83,10 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edit_text_neon"
+            android:textColor="@color/white"
+            android:padding="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -61,8 +95,14 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:hint="Password"
+        android:hint="SECRET CODE (PASSWORD)"
+        style="@style/Widget.TriSense.TextInputLayout"
+        app:boxStrokeWidth="0dp"
+        app:boxStrokeWidthFocused="0dp"
+        app:hintTextColor="@color/neon_cyan"
+        android:textColorHint="@color/glass_stroke"
         app:endIconMode="password_toggle"
+        app:endIconTint="@color/neon_magenta"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailLayout">
@@ -71,18 +111,24 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text_neon"
+            android:textColor="@color/white"
+            android:padding="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingVertical="12dp"
-        android:text="Registrati"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
+        android:layout_marginTop="72dp"
+        android:paddingVertical="14dp"
+        android:text="START GAME"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_neon_magenta"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintStart_toStartOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
@@ -92,6 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:indeterminateTint="@color/neon_magenta"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

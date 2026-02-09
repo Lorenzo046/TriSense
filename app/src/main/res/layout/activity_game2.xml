@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
+    android:background="@drawable/bg_main_gradient"
     tools:context=".activities.Game2Activity">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -17,8 +17,22 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:title="@string/game_2"
+        app:title=""
         app:navigationIcon="?attr/homeAsUpIndicator" />
+
+    <TextView
+        android:id="@+id/gameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/game_2"
+        android:fontFamily="sans-serif-black"
+        android:textColor="@color/neon_magenta"
+        android:textSize="32sp"
+        android:letterSpacing="0.05"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <LinearLayout
         android:id="@+id/statsContainer"
@@ -27,7 +41,7 @@
         android:orientation="horizontal"
         android:padding="16dp"
         android:baselineAligned="false"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toBottomOf="@id/gameTitle">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
@@ -35,14 +49,16 @@
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
             app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0">
+            app:strokeColor="@color/neon_magenta">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@drawable/card_glass"
                 android:padding="16dp"
                 android:gravity="center">
 
@@ -51,18 +67,18 @@
                     android:layout_height="wrap_content"
                     android:text="TOP SCORE"
                     android:textSize="12sp"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.1"
-                    android:textColor="?android:attr/textColorSecondary"/>
+                    android:fontFamily="monospace"
+                    android:textColor="@color/neon_magenta"/>
 
                 <TextView
                     android:id="@+id/tvTopScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
-                    android:textSize="24sp"
+                    android:textSize="32sp"
+                    android:fontFamily="monospace"
                     android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"/>
+                    android:textColor="@color/white"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -72,33 +88,36 @@
             android:layout_weight="1"
             android:layout_marginStart="8dp"
             app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@android:color/transparent"
             app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0">
+            app:strokeColor="@color/neon_magenta">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@drawable/card_glass"
                 android:padding="16dp"
                 android:gravity="center">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="MEDIA"
+                    android:text="AVERAGE"
                     android:textSize="12sp"
-                    android:textAllCaps="true"
-                    android:letterSpacing="0.1"
-                    android:textColor="?android:attr/textColorSecondary"/>
+                    android:fontFamily="monospace"
+                    android:textColor="@color/neon_magenta"/>
 
                 <TextView
                     android:id="@+id/tvAvgScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0.0"
-                    android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textSize="32sp"
+                    android:fontFamily="monospace"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -109,10 +128,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Classifica Top 5"
+        android:text="HALL OF FAME"
         android:textSize="20sp"
+        android:fontFamily="monospace"
         android:textStyle="bold"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="@color/neon_cyan"
         app:layout_constraintTop_toBottomOf="@id/statsContainer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -131,6 +151,7 @@
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/neon_magenta"
         app:layout_constraintTop_toTopOf="@id/rvLeaderboard"
         app:layout_constraintBottom_toBottomOf="@id/rvLeaderboard"
         app:layout_constraintStart_toStartOf="@id/rvLeaderboard"
@@ -140,7 +161,9 @@
         android:id="@+id/tvNoScores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nessun punteggio ancora."
+        android:text="NO DATA FOUND"
+        android:fontFamily="monospace"
+        android:textColor="@color/glass_stroke"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="@id/rvLeaderboard"
         app:layout_constraintBottom_toBottomOf="@id/rvLeaderboard"
@@ -154,11 +177,13 @@
         android:layout_marginHorizontal="32dp"
         android:layout_marginBottom="48dp"
         android:paddingVertical="16dp"
-        android:text="AVVIA PARTITA"
+        android:text="START MISSION"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:cornerRadius="24dp"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_neon_magenta"
         app:icon="@android:drawable/ic_media_play"
+        app:iconTint="@color/white"
         app:iconGravity="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

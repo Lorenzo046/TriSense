@@ -5,19 +5,39 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_main_gradient"
     tools:context=".activities.LoginActivity">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="sans-serif-black"
-        android:text="TriSense"
-        android:textSize="48sp"
+        android:text="TRISENSE"
+        android:textColor="@color/neon_blue"
+        android:textSize="56sp"
+        android:letterSpacing="0.1"
+        android:shadowColor="@color/neon_magenta"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DIVENTA UN PLAYER"
+        android:textColor="@color/neon_cyan"
+        android:textSize="14sp"
+        android:letterSpacing="0.2"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
@@ -25,16 +45,20 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="64dp"
-        android:hint="Email"
+        android:hint="INSERT COIN (EMAIL)"
+        style="@style/Widget.TriSense.TextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        app:layout_constraintTop_toBottomOf="@+id/subtitle">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edit_text_neon"
+            android:textColor="@color/white"
+            android:padding="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -43,8 +67,10 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
-        android:hint="Password"
+        android:hint="SECRET CODE (PASSWORD)"
+        style="@style/Widget.TriSense.TextInputLayout"
         app:endIconMode="password_toggle"
+        app:endIconTint="@color/neon_cyan"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/emailLayout">
@@ -53,18 +79,25 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:background="@drawable/edit_text_neon"
+            android:textColor="@color/white"
+            android:padding="16dp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogin"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:paddingVertical="12dp"
-        android:text="Login"
-        android:textSize="16sp"
-        app:cornerRadius="8dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="48dp"
+        android:paddingVertical="16dp"
+        android:text="LOGIN"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_neon_magenta"
+        app:iconGravity="textStart"
         app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
         app:layout_constraintStart_toStartOf="@+id/passwordLayout"
         app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
@@ -73,10 +106,12 @@
         android:id="@+id/tvRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Non hai un account? Registrati"
-        android:textSize="16sp"
-        android:textColor="?attr/colorPrimary"
+        android:layout_marginTop="24dp"
+        android:text="NUOVO PLAYER? REGISTRATI"
+        android:textSize="14sp"
+        android:textColor="@color/neon_magenta"
+        android:letterSpacing="0.1"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
@@ -86,6 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        android:indeterminateTint="@color/neon_cyan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

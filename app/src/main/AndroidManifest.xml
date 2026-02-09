@@ -41,6 +41,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".activities.ProfileActivity"
+            android:parentActivityName=".activities.GameSelectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.GameSelectionActivity"
             android:exported="false" />
     </application>

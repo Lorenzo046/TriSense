@@ -53,6 +53,12 @@ public class GameSelectionActivity extends AppCompatActivity {
         cardGame1.setOnClickListener(v -> openGame(game1));
         cardGame2.setOnClickListener(v -> openGame(game2));
         cardGame3.setOnClickListener(v -> openGame(game3));
+
+        // Profile button
+        findViewById(R.id.btnProfile).setOnClickListener(v -> {
+            Intent intent = new Intent(GameSelectionActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void openGame(Game game) {
