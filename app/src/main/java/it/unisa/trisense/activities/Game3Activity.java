@@ -66,7 +66,7 @@ public class Game3Activity extends AppCompatActivity {
         tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game3")));
 
         btnStartGame.setOnClickListener(v -> {
-            Toast.makeText(this, "Game Logic not implemented yet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Il gioco non è stato ancora implementato", Toast.LENGTH_SHORT).show();
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

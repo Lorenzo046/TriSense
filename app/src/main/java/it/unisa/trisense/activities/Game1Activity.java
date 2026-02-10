@@ -67,7 +67,7 @@ public class Game1Activity extends AppCompatActivity {
 
         btnStartGame.setOnClickListener(v -> {
             // TODO: Start the actual game activity when implemented
-            Toast.makeText(this, "Game Logic not implemented yet", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Il gioco non è stato ancora implementato", Toast.LENGTH_SHORT).show();
             // Example of saving a score (for testing):
             // LeaderboardManager.getInstance().saveScore("game1", 100.0, success -> {
             // if (success) loadLeaderboard();

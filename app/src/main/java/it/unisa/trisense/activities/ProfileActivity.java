@@ -71,7 +71,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     })
                     .addOnFailureListener(
-                            e -> Toast.makeText(this, "Error loading profile", Toast.LENGTH_SHORT).show());
+                            e -> Toast.makeText(this, "Errore nel caricamento del profilo", Toast.LENGTH_SHORT).show());
         }
     }
 

@@ -74,22 +74,22 @@ public class RegisterActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
 
         if (TextUtils.isEmpty(username)) {
-            etUsername.setError("Username is required");
+            etUsername.setError("Nome player obbligatorio");
             return;
         }
 
         if (TextUtils.isEmpty(email)) {
-            etEmail.setError("Email is required");
+            etEmail.setError("Email obbligatoria");
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            etPassword.setError("Password is required");
+            etPassword.setError("Secret code obbligatorio");
             return;
         }
 
         if (password.length() < 6) {
-            etPassword.setError("Password must be at least 6 characters");
+            etPassword.setError("Secret code almeno di sei caratteri");
             return;
         }
 
@@ -107,7 +107,7 @@ public class RegisterActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         btnRegister.setEnabled(true);
                         Toast.makeText(RegisterActivity.this,
-                                "Authentication failed: " + task.getException().getMessage(),
+                                "Autenticazione fallita: " + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -118,13 +118,13 @@ public class RegisterActivity extends AppCompatActivity {
         db.collection("users").document(userId).set(user)
                 .addOnSuccessListener(aVoid -> {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registrazione avvenuta con successo", Toast.LENGTH_SHORT).show();
                     navigateToGameSelection();
                 })
                 .addOnFailureListener(e -> {
                     progressBar.setVisibility(View.GONE);
                     btnRegister.setEnabled(true);
-                    Toast.makeText(RegisterActivity.this, "Failed to save user data: " + e.getMessage(),
+                    Toast.makeText(RegisterActivity.this, "Fallimento durante il salvataggio dei dati " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 });
     }
