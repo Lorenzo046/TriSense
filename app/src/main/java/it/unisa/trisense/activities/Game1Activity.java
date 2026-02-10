@@ -66,8 +66,9 @@ public class Game1Activity extends AppCompatActivity {
         tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game1")));
 
         btnStartGame.setOnClickListener(v -> {
-            // TODO: Start the actual game activity when implemented
-            Toast.makeText(this, "Il gioco non è stato ancora implementato", Toast.LENGTH_SHORT).show();
+            // Start the actual game activity
+            android.content.Intent intent = new android.content.Intent(Game1Activity.this, DecibelJumpActivity.class);
+            startActivity(intent);
             // Example of saving a score (for testing):
             // LeaderboardManager.getInstance().saveScore("game1", 100.0, success -> {
             // if (success) loadLeaderboard();

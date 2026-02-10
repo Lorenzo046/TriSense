@@ -19,6 +19,12 @@
             android:name=".activities.RegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.DecibelJumpActivity"
+            android:exported="true"
+            android:parentActivityName=".activities.Game1Activity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
@@ -38,7 +44,11 @@
         <activity
             android:name=".activities.Game1Activity"
             android:parentActivityName=".activities.GameSelectionActivity"
+
             android:exported="false" />
+
+
+
 
         <activity
             android:name=".activities.ProfileActivity"
