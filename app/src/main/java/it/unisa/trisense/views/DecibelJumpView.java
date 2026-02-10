@@ -71,6 +71,9 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         paint = new Paint();
         obstacles = new ArrayList<>();
         setFocusable(true); // Ensure view can take focus
+        // setZOrderOnTop(true); // Can obscure other UI
+        setZOrderMediaOverlay(true); // Better for games behind UI
+        getHolder().setFormat(android.graphics.PixelFormat.RGBA_8888);
     }
 
     @Override
@@ -214,13 +217,21 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
                 return;
             }
 
-            // Background - Bright Blue for debug
-            canvas.drawColor(Color.BLUE);
+            // Background
+            canvas.drawColor(Color.rgb(30, 30, 80));
 
             // Log heartbeat every 60 frames (~1 sec)
             if (System.currentTimeMillis() % 1000 < 20) {
                 Log.d("DecibelJump", "Drawing frame... isGameStarted=" + isGameStarted);
             }
+
+            // Debug Text (Removed)
+            /*
+             * paint.setColor(Color.WHITE);
+             * paint.setTextSize(50);
+             * canvas.drawText("DEBUG: " + screenWidth + "x" + screenHeight + " Started=" +
+             * isGameStarted, 50, 50, paint);
+             */
 
             if (groundLevel > 0) {
                 // Ground
@@ -394,10 +405,11 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
                 mediaRecorder.start();
             } catch (IOException | IllegalStateException e) {
                 e.printStackTrace();
-                // Release if start fails
+                stopRecording();
+            } catch (SecurityException e) {
+                Log.e("DecibelJump", "Permission denied for audio recording", e);
                 stopRecording();
             } catch (RuntimeException e) {
-                // Should not happen if permission is granted, but safety net
                 e.printStackTrace();
                 stopRecording();
             }
