@@ -80,9 +80,9 @@ public class ProfileActivity extends AppCompatActivity {
         if (currentUser != null) {
             String userId = currentUser.getUid();
 
-            fetchScore("1", userId, tvScoreGame1);
-            fetchScore("2", userId, tvScoreGame2);
-            fetchScore("3", userId, tvScoreGame3);
+            fetchScore("game1", userId, tvScoreGame1);
+            fetchScore("game2", userId, tvScoreGame2);
+            fetchScore("game3", userId, tvScoreGame3);
         }
     }
 

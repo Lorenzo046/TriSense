@@ -97,6 +97,20 @@ public class Game1Activity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload leaderboard and local stats when returning from the game
+        loadLeaderboard();
+
+        TextView tvTopScore = findViewById(R.id.tvTopScore);
+        TextView tvAvgScore = findViewById(R.id.tvAvgScore);
+        it.unisa.trisense.managers.LocalGameManager localGameManager = new it.unisa.trisense.managers.LocalGameManager(
+                this);
+        tvTopScore.setText(String.valueOf(localGameManager.getTopScore("game1")));
+        tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game1")));
+    }
+
+    @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;

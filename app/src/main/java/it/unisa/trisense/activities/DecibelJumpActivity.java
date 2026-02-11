@@ -12,6 +12,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import it.unisa.trisense.R;
+import it.unisa.trisense.managers.LeaderboardManager;
+import it.unisa.trisense.managers.LocalGameManager;
 import it.unisa.trisense.views.DecibelJumpView;
 
 public class DecibelJumpActivity extends AppCompatActivity {
@@ -53,6 +55,15 @@ public class DecibelJumpActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     tvScore.setText("Score: " + score);
                     layoutGameOver.setVisibility(View.VISIBLE);
+
+                    // Save score to Firebase Firestore (only saves if it's a new high score)
+                    LeaderboardManager.getInstance().saveScore("game1", score, success -> {
+                        // Score saved to Firebase leaderboard
+                    });
+
+                    // Save score locally (updates top score and average)
+                    LocalGameManager localGameManager = new LocalGameManager(DecibelJumpActivity.this);
+                    localGameManager.saveScore("game1", score);
                 });
             }
 
