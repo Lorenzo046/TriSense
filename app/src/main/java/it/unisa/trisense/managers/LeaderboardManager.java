@@ -90,4 +90,25 @@ public class LeaderboardManager {
                 })
                 .addOnFailureListener(e -> callback.accept(new ArrayList<>()));
     }
+
+    public void getUserScore(String gameId, Consumer<Double> callback) {
+        if (auth.getCurrentUser() == null) {
+            callback.accept(-1.0);
+            return;
+        }
+
+        String userId = auth.getCurrentUser().getUid();
+        db.collection("scores").document(gameId)
+                .collection("user_scores").document(userId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    ScoreEntry entry = documentSnapshot.toObject(ScoreEntry.class);
+                    if (entry != null) {
+                        callback.accept(entry.getScore());
+                    } else {
+                        callback.accept(-1.0); // No score found
+                    }
+                })
+                .addOnFailureListener(e -> callback.accept(-1.0));
+    }
 }

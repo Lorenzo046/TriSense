@@ -38,6 +38,12 @@
             android:parentActivityName=".activities.GameSelectionActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.FlashReflexActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.Game2Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activities.Game2Activity"
             android:parentActivityName=".activities.GameSelectionActivity"
             android:exported="false" />

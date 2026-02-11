@@ -66,7 +66,8 @@ public class Game2Activity extends AppCompatActivity {
         tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game2")));
 
         btnStartGame.setOnClickListener(v -> {
-            Toast.makeText(this, "Il gioco non è stato ancora implementato", Toast.LENGTH_SHORT).show();
+            android.content.Intent intent = new android.content.Intent(Game2Activity.this, FlashReflexActivity.class);
+            startActivity(intent);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -74,6 +75,34 @@ public class Game2Activity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Reload leaderboard and local stats when returning from the game
+        loadLeaderboard();
+
+        TextView tvTopScore = findViewById(R.id.tvTopScore);
+        TextView tvAvgScore = findViewById(R.id.tvAvgScore);
+
+        // Load Top Score from Firebase
+        LeaderboardManager.getInstance().getUserScore("game2", score -> {
+            if (score != -1.0) {
+                if (score % 1 == 0) {
+                    tvTopScore.setText(String.valueOf(score.intValue()));
+                } else {
+                    tvTopScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", score));
+                }
+            } else {
+                tvTopScore.setText("0");
+            }
+        });
+
+        // Load Average from Local Storage
+        it.unisa.trisense.managers.LocalGameManager localGameManager = new it.unisa.trisense.managers.LocalGameManager(
+                this);
+        tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game2")));
     }
 
     private void loadLeaderboard() {
