@@ -25,6 +25,8 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     // Game state
     private boolean isGameStarted = false;
     private boolean isGameRunning = false;
+    private boolean isPaused = false;
+    private long pauseStartTime = 0;
     private int score = 0;
     private int difficultyLevel = 1; // Increases every 10 taps
 
@@ -132,6 +134,8 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         if (screenHeight == 0 || screenWidth == 0)
             return;
         if (!isGameStarted || !isGameRunning)
+            return;
+        if (isPaused)
             return;
 
         long now = System.currentTimeMillis();
@@ -346,6 +350,32 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         }
     }
 
+    public void pause() {
+        isPaused = true;
+        pauseStartTime = System.currentTimeMillis();
+    }
+
+    public void resumeGame() {
+        if (isPaused) {
+            long pausedDuration = System.currentTimeMillis() - pauseStartTime;
+            // Compensate timers so circle doesn't expire during pause
+            if (circleVisible) {
+                circleSpawnTime += pausedDuration;
+            }
+            lastCircleEndTime += pausedDuration;
+            feedbackTime += pausedDuration;
+        }
+        isPaused = false;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public boolean isGameActive() {
+        return isGameStarted && isGameRunning && !isPaused;
+    }
+
     public void reset() {
         score = 0;
         difficultyLevel = 1;
@@ -353,6 +383,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         circleTapped = false;
         isGameRunning = false;
         isGameStarted = false;
+        isPaused = false;
         feedbackText = "";
         lastCircleEndTime = 0;
 

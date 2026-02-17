@@ -1,10 +1,10 @@
 package it.unisa.trisense.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -66,7 +66,8 @@ public class Game3Activity extends AppCompatActivity {
         tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game3")));
 
         btnStartGame.setOnClickListener(v -> {
-            Toast.makeText(this, "Il gioco non è stato ancora implementato", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(Game3Activity.this, GyroMazeActivity.class);
+            startActivity(intent);
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {

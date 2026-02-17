@@ -118,6 +118,8 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
     private long startTime;
     private boolean isGameStarted = false; // Waiting for user to tap start
     private boolean isGameRunning = false; // Game logic active
+    private boolean isPaused = false;
+    private long pauseStartTime = 0;
 
     private void update() {
         if (screenHeight == 0 || screenWidth == 0)
@@ -137,6 +139,9 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         }
 
         if (!isGameRunning)
+            return;
+
+        if (isPaused)
             return;
 
         // ... game logic ...
@@ -355,12 +360,34 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         stopRecording();
     }
 
+    public void pause() {
+        isPaused = true;
+        pauseStartTime = System.currentTimeMillis();
+    }
+
+    public void resumeGame() {
+        if (isPaused) {
+            long pausedDuration = System.currentTimeMillis() - pauseStartTime;
+            startTime += pausedDuration;
+        }
+        isPaused = false;
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public boolean isGameActive() {
+        return isGameStarted && isGameRunning && !isPaused;
+    }
+
     public void reset() {
         score = 0;
         obstacles.clear();
         isJumping = false;
         isGameRunning = false;
         isGameStarted = false; // Require tap again
+        isPaused = false;
 
         if (groundLevel > 0) {
             // ...

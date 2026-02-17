@@ -34,6 +34,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.GyroMazeActivity"
+            android:exported="false"
+            android:parentActivityName=".activities.Game3Activity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activities.Game3Activity"
             android:parentActivityName=".activities.GameSelectionActivity"
             android:exported="false" />

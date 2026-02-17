@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +23,9 @@ public class DecibelJumpActivity extends AppCompatActivity {
     private TextView tvGameOver;
     private static final int PERMISSION_REQ_CODE = 200;
 
+    private View layoutPause;
+    private ImageButton btnPause;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +39,33 @@ public class DecibelJumpActivity extends AppCompatActivity {
         View btnExit = findViewById(R.id.btnExit);
         TextView tvScore = findViewById(R.id.tvScore);
 
+        // Pause system
+        btnPause = findViewById(R.id.btnPause);
+        layoutPause = findViewById(R.id.layoutPause);
+        View btnResume = findViewById(R.id.btnResume);
+        View btnPauseExit = findViewById(R.id.btnPauseExit);
+
+        btnPause.setOnClickListener(v -> {
+            if (gameView.isGameActive()) {
+                gameView.pause();
+                layoutPause.setVisibility(View.VISIBLE);
+                btnPause.setVisibility(View.GONE);
+            }
+        });
+
+        btnResume.setOnClickListener(v -> {
+            layoutPause.setVisibility(View.GONE);
+            btnPause.setVisibility(View.VISIBLE);
+            gameView.resumeGame();
+        });
+
+        btnPauseExit.setOnClickListener(v -> finish());
+
         btnExit.setOnClickListener(v -> finish());
 
         btnRetry.setOnClickListener(v -> {
             layoutGameOver.setVisibility(View.GONE);
+            btnPause.setVisibility(View.VISIBLE);
             gameView.reset();
             gameView.start();
         });
@@ -55,6 +82,7 @@ public class DecibelJumpActivity extends AppCompatActivity {
                 runOnUiThread(() -> {
                     tvScore.setText("Score: " + score);
                     layoutGameOver.setVisibility(View.VISIBLE);
+                    btnPause.setVisibility(View.GONE);
 
                     // Save score to Firebase Firestore (only saves if it's a new high score)
                     LeaderboardManager.getInstance().saveScore("game1", score, success -> {

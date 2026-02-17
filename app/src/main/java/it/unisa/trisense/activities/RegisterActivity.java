@@ -15,7 +15,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
+import android.widget.EditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,7 +25,7 @@ import it.unisa.trisense.models.User;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private TextInputEditText etUsername, etEmail, etPassword;
+    private EditText etUsername, etEmail, etPassword;
     private MaterialButton btnRegister;
     private ProgressBar progressBar;
     private FirebaseAuth mAuth;
@@ -118,13 +118,15 @@ public class RegisterActivity extends AppCompatActivity {
         db.collection("users").document(userId).set(user)
                 .addOnSuccessListener(aVoid -> {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(RegisterActivity.this, "Registrazione avvenuta con successo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Registrazione avvenuta con successo", Toast.LENGTH_SHORT)
+                            .show();
                     navigateToGameSelection();
                 })
                 .addOnFailureListener(e -> {
                     progressBar.setVisibility(View.GONE);
                     btnRegister.setEnabled(true);
-                    Toast.makeText(RegisterActivity.this, "Fallimento durante il salvataggio dei dati " + e.getMessage(),
+                    Toast.makeText(RegisterActivity.this,
+                            "Fallimento durante il salvataggio dei dati " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 });
     }

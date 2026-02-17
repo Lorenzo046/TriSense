@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
+import android.widget.EditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -23,7 +23,7 @@ import it.unisa.trisense.R;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextInputEditText etEmail, etPassword;
+    private EditText etEmail, etPassword;
     private MaterialButton btnLogin;
     private TextView tvRegister;
     private ProgressBar progressBar;
@@ -87,7 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "Login avvenuto con successo", Toast.LENGTH_SHORT).show();
                         navigateToGameSelection();
                     } else {
-                        Toast.makeText(LoginActivity.this, "Autenticazione fallita: " + task.getException().getMessage(),
+                        Toast.makeText(LoginActivity.this,
+                                "Autenticazione fallita: " + task.getException().getMessage(),
                                 Toast.LENGTH_SHORT).show();
                     }
                 });

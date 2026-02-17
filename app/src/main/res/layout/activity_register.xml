@@ -37,85 +37,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/usernameLayout"
+    <EditText
+        android:id="@+id/etUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="48dp"
         android:hint="NOME PLAYER"
-        style="@style/Widget.TriSense.TextInputLayout"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:hintTextColor="@color/neon_cyan"
+        android:inputType="textPersonName"
+        android:background="@drawable/edit_text_neon"
+        android:textColor="@color/white"
         android:textColorHint="@color/glass_stroke"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title">
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:background="@drawable/edit_text_neon"
-            android:textColor="@color/white"
-            android:padding="16dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/emailLayout"
+    <EditText
+        android:id="@+id/etEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:hint="INSERISCI EMAIL"
-        style="@style/Widget.TriSense.TextInputLayout"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:hintTextColor="@color/neon_cyan"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/edit_text_neon"
+        android:textColor="@color/white"
         android:textColorHint="@color/glass_stroke"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameLayout">
+        app:layout_constraintTop_toBottomOf="@+id/etUsername" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
-            android:background="@drawable/edit_text_neon"
-            android:textColor="@color/white"
-            android:padding="16dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordLayout"
+    <EditText
+        android:id="@+id/etPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="32dp"
         android:layout_marginTop="16dp"
         android:hint="SECRET CODE"
-        style="@style/Widget.TriSense.TextInputLayout"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:hintTextColor="@color/neon_cyan"
+        android:inputType="textPassword"
+        android:background="@drawable/edit_text_neon"
+        android:textColor="@color/white"
         android:textColorHint="@color/glass_stroke"
-        app:endIconMode="password_toggle"
-        app:endIconTint="@color/neon_magenta"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"
-            android:background="@drawable/edit_text_neon"
-            android:textColor="@color/white"
-            android:padding="16dp"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@+id/etEmail" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRegister"
@@ -129,9 +97,9 @@
         android:textColor="@color/white"
         android:background="@drawable/btn_neon_magenta"
         app:backgroundTint="@null"
-        app:layout_constraintEnd_toEndOf="@+id/passwordLayout"
-        app:layout_constraintStart_toStartOf="@+id/passwordLayout"
-        app:layout_constraintTop_toBottomOf="@+id/passwordLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/etPassword"
+        app:layout_constraintStart_toStartOf="@+id/etPassword"
+        app:layout_constraintTop_toBottomOf="@+id/etPassword" />
 
     <ProgressBar
         android:id="@+id/progressBar"
