@@ -42,13 +42,13 @@ public class GyroMazeActivity extends AppCompatActivity implements SensorEventLi
         View btnExit = findViewById(R.id.btnExit);
         TextView tvScore = findViewById(R.id.tvScore);
 
-        // Sensor setup
+        // Setup sensori
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
 
-        // Pause button
+        // Gestione pausa
         btnPause.setOnClickListener(v -> {
             if (gameView.isGameActive()) {
                 gameView.pause();
@@ -57,20 +57,16 @@ public class GyroMazeActivity extends AppCompatActivity implements SensorEventLi
             }
         });
 
-        // Resume button
         btnResume.setOnClickListener(v -> {
             layoutPause.setVisibility(View.GONE);
             btnPause.setVisibility(View.VISIBLE);
             gameView.resumeGame();
         });
 
-        // Exit from pause
         btnPauseExit.setOnClickListener(v -> finish());
 
-        // Exit from game over
         btnExit.setOnClickListener(v -> finish());
 
-        // Retry
         btnRetry.setOnClickListener(v -> {
             layoutGameOver.setVisibility(View.GONE);
             btnPause.setVisibility(View.VISIBLE);
@@ -78,7 +74,6 @@ public class GyroMazeActivity extends AppCompatActivity implements SensorEventLi
             gameView.start();
         });
 
-        // Game events
         gameView.setOnGameEventListener(new GyroMazeView.OnGameEventListener() {
             @Override
             public void onGameOver(int score) {
@@ -87,12 +82,12 @@ public class GyroMazeActivity extends AppCompatActivity implements SensorEventLi
                     layoutGameOver.setVisibility(View.VISIBLE);
                     btnPause.setVisibility(View.GONE);
 
-                    // Save score to Firebase Firestore
+                    // Salva lo score su Firebase Firestore (lo salva solamente se è un nuovo top score)
                     LeaderboardManager.getInstance().saveScore("game3", score, success -> {
-                        // Score saved to Firebase leaderboard
+                        // Salva lo score su Firebase leaderboard
                     });
 
-                    // Save score locally
+                    // Salva lo score localmente (aggiorna il top score e la media)
                     LocalGameManager localGameManager = new LocalGameManager(GyroMazeActivity.this);
                     localGameManager.saveScore("game3", score);
                 });
@@ -100,7 +95,6 @@ public class GyroMazeActivity extends AppCompatActivity implements SensorEventLi
 
             @Override
             public void onScoreUpdate(int score) {
-                // Could update a live score view here if needed
             }
         });
     }
@@ -116,7 +110,6 @@ public class GyroMazeActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not used
     }
 
     @Override

@@ -31,7 +31,7 @@ public class FlashReflexActivity extends AppCompatActivity {
         View btnExit = findViewById(R.id.btnExit);
         TextView tvScore = findViewById(R.id.tvScore);
 
-        // Pause system
+        // Gestione pausa
         btnPause = findViewById(R.id.btnPause);
         layoutPause = findViewById(R.id.layoutPause);
         View btnResume = findViewById(R.id.btnResume);
@@ -70,12 +70,12 @@ public class FlashReflexActivity extends AppCompatActivity {
                     layoutGameOver.setVisibility(View.VISIBLE);
                     btnPause.setVisibility(View.GONE);
 
-                    // Save score to Firebase Firestore
+                    // Salva lo score su Firebase Firestore (lo salva solamente se è un nuovo top score)
                     LeaderboardManager.getInstance().saveScore("game2", score, success -> {
-                        // Score saved to Firebase leaderboard
+                        // Salva lo score su Firebase leaderboard
                     });
 
-                    // Save score locally
+                    // Salva lo score localmente (aggiorna il top score e la media)
                     LocalGameManager localGameManager = new LocalGameManager(FlashReflexActivity.this);
                     localGameManager.saveScore("game2", score);
                 });
@@ -83,7 +83,6 @@ public class FlashReflexActivity extends AppCompatActivity {
 
             @Override
             public void onScoreUpdate(int score) {
-                // Could update a live score view here if needed
             }
         });
     }

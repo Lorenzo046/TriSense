@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        // Check if user is already logged in
+        // Controlla se l'utente è gia loggato
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             navigateToGameSelection();

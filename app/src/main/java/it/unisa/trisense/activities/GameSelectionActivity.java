@@ -21,7 +21,7 @@ public class GameSelectionActivity extends AppCompatActivity {
 
         TextView txtWelcome = findViewById(R.id.txtWelcome);
 
-        // Fetch User Data
+        // Otteniamo il nome dell'utente loggato
         com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance()
                 .getCurrentUser();
         if (currentUser != null) {
@@ -47,11 +47,6 @@ public class GameSelectionActivity extends AppCompatActivity {
         MaterialCardView cardGame2 = findViewById(R.id.cardGame2);
         cardGame2.setOnClickListener(v -> openGame(game2));
         MaterialCardView cardGame3 = findViewById(R.id.cardGame3);
-        cardGame3.setOnClickListener(v -> openGame(game3));
-
-        // click listener
-        cardGame1.setOnClickListener(v -> openGame(game1));
-        cardGame2.setOnClickListener(v -> openGame(game2));
         cardGame3.setOnClickListener(v -> openGame(game3));
 
         // Profile button

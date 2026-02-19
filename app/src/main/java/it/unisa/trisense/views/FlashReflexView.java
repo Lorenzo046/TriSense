@@ -22,44 +22,38 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     private Paint paint;
     private Random random;
 
-    // Game state
     private boolean isGameStarted = false;
     private boolean isGameRunning = false;
     private boolean isPaused = false;
     private long pauseStartTime = 0;
     private int score = 0;
-    private int difficultyLevel = 1; // Increases every 10 taps
+    private int difficultyLevel = 1;
 
-    // Circle properties
     private float circleX, circleY;
     private float circleRadius = 80;
     private int circleColor;
     private boolean circleVisible = false;
     private long circleSpawnTime;
-    private long circleDisplayDuration; // ms - decreases as game progresses
-    private boolean circleTapped = false; // Whether current circle was tapped
+    private long circleDisplayDuration;
+    private boolean circleTapped = false;
 
-    // Timing
-    private long pauseBetweenRounds = 600; // ms pause between circles
+    private long pauseBetweenRounds = 600;
     private long lastCircleEndTime = 0;
 
-    // Screen
     private int screenWidth;
     private int screenHeight;
 
-    // Colors for circles
     private final int[] CIRCLE_COLORS = {
             Color.CYAN,
             Color.MAGENTA,
             Color.YELLOW,
             Color.GREEN,
-            Color.rgb(255, 165, 0), // Orange
+            Color.rgb(255, 165, 0), // Arancione
             Color.RED,
-            Color.rgb(0, 255, 127), // Spring green
-            Color.rgb(255, 105, 180) // Hot pink
+            Color.rgb(0, 255, 127), // Verde chiaro
+            Color.rgb(255, 105, 180) // Rosa
     };
 
-    // Feedback
     private String feedbackText = "";
     private long feedbackTime = 0;
     private int feedbackColor = Color.WHITE;
@@ -107,7 +101,6 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         }
     }
 
-    // SurfaceHolder Callbacks
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d(TAG, "Surface Created. isPlaying=" + isPlaying);
@@ -140,10 +133,10 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
 
         long now = System.currentTimeMillis();
 
-        // Circle is visible - check if time expired
+        // Il cerchio è visibile - controlla se il tempo è scaduto
         if (circleVisible) {
             if (now - circleSpawnTime >= circleDisplayDuration) {
-                // Circle expired without being tapped -> GAME OVER
+                // Il tempo è scaduto senza che il cerchio sia stato cliccato -> GAME OVER
                 if (!circleTapped) {
                     feedbackText = "MANCATO!";
                     feedbackColor = Color.RED;
@@ -159,7 +152,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                 lastCircleEndTime = now;
             }
         } else {
-            // Circle not visible - wait for pause then spawn next
+            // Cerchio non visibile - aspetta una pausa prima di mostrare il prossimo
             if (now - lastCircleEndTime >= pauseBetweenRounds) {
                 spawnCircle();
             }
@@ -169,20 +162,20 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     private void spawnCircle() {
         circleTapped = false;
 
-        // Calculate difficulty level: increases every 10 successful taps
+        // Calcola il livello di difficolta: incrementa ogni 10 tap
         difficultyLevel = 1 + (score / 10);
 
-        // Calculate display duration based on difficulty
-        // Level 1: 1500ms, decreases by 100ms per level, minimum 400ms
+        // Calcola la durata in cui viene mostarto un cerchio in base alla difficoltà
+        // Livello 1: 1500ms, decremento di 100ms per livello, minimo 400ms
         circleDisplayDuration = Math.max(400, 1500 - ((difficultyLevel - 1) * 100L));
 
-        // Random position (with padding so circle stays fully on screen)
+        // Posizioni random (con il padding per avere tutti i cerchi nello schermo)
         float padding = circleRadius + 40;
         float topPadding = padding + 150; // Extra top padding for score text
         circleX = padding + random.nextFloat() * (screenWidth - 2 * padding);
         circleY = topPadding + random.nextFloat() * (screenHeight - topPadding - padding);
 
-        // Random color
+        // Colori random
         circleColor = CIRCLE_COLORS[random.nextInt(CIRCLE_COLORS.length)];
 
         circleVisible = true;
@@ -202,10 +195,10 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
 
         long now = System.currentTimeMillis();
 
-        // Background - dark
+        // Background - nero
         canvas.drawColor(Color.rgb(20, 20, 50));
 
-        // Score and round info
+        // Punteggio e livello info
         paint.setColor(Color.WHITE);
         paint.setTextSize(50);
         canvas.drawText("Score: " + score, 50, 80, paint);
@@ -215,7 +208,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         canvas.drawText("Livello: " + difficultyLevel, 50, 130, paint);
 
         if (!isGameStarted) {
-            // "Tap to Start" screen
+            // "Tocca per iniziare" schermo
             paint.setTextSize(80);
             paint.setColor(Color.YELLOW);
             String text = "TOCCA PER INIZIARE";
@@ -228,33 +221,29 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
             float subWidth = paint.measureText(sub);
             canvas.drawText(sub, (screenWidth - subWidth) / 2f, screenHeight / 2f + 60, paint);
         } else if (isGameRunning) {
-            // Draw countdown bar for current circle
+            // Disegna la downbar per i cerchi
             if (circleVisible) {
                 float elapsed = now - circleSpawnTime;
                 float remaining = 1f - (elapsed / (float) circleDisplayDuration);
                 remaining = Math.max(0, Math.min(1, remaining));
 
-                // Timer bar at top
+                // Tempo della barra superiore
                 paint.setColor(remaining > 0.3f ? Color.GREEN : Color.RED);
                 canvas.drawRect(0, 0, screenWidth * remaining, 8, paint);
 
-                // Draw the circle with glow effect
-                // Outer glow
                 paint.setColor(Color.argb(60, Color.red(circleColor),
                         Color.green(circleColor), Color.blue(circleColor)));
                 canvas.drawCircle(circleX, circleY, circleRadius + 20, paint);
 
-                // Main circle
+                // Cerchio principale
                 paint.setColor(circleColor);
                 canvas.drawCircle(circleX, circleY, circleRadius, paint);
 
-                // Inner highlight
                 paint.setColor(Color.argb(80, 255, 255, 255));
                 canvas.drawCircle(circleX - circleRadius * 0.25f,
                         circleY - circleRadius * 0.25f, circleRadius * 0.35f, paint);
             }
 
-            // Draw feedback text
             if (now - feedbackTime < 500 && !feedbackText.isEmpty()) {
                 paint.setTextSize(60);
                 paint.setColor(feedbackColor);
@@ -262,7 +251,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                 canvas.drawText(feedbackText, (screenWidth - tw) / 2f, screenHeight / 2f + 200, paint);
             }
         } else if (!isGameRunning && isGameStarted) {
-            // Game over state (drawn before overlay appears)
+            // Game over punteggio
             paint.setTextSize(80);
             paint.setColor(Color.RED);
             String text = "GAME OVER";
@@ -285,7 +274,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             if (!isGameStarted) {
-                // Start the game
+                // Inizia il gioco
                 isGameStarted = true;
                 isGameRunning = true;
                 lastCircleEndTime = System.currentTimeMillis();
@@ -296,13 +285,13 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                 float touchX = event.getX();
                 float touchY = event.getY();
 
-                // Check if touch is inside the circle
+                // Controlla se il toco è nel cerchio
                 float dx = touchX - circleX;
                 float dy = touchY - circleY;
                 float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-                if (distance <= circleRadius + 20) { // Small tolerance
-                    // Hit!
+                if (distance <= circleRadius + 20) { // Piccola tolleranza per il click
+                    // Presooooo!
                     circleTapped = true;
                     score++;
                     circleVisible = false;
@@ -358,7 +347,6 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     public void resumeGame() {
         if (isPaused) {
             long pausedDuration = System.currentTimeMillis() - pauseStartTime;
-            // Compensate timers so circle doesn't expire during pause
             if (circleVisible) {
                 circleSpawnTime += pausedDuration;
             }
@@ -391,7 +379,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
             gameEventListener.onScoreUpdate(0);
         }
 
-        // Force redraw
+        // Forza redraw
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {

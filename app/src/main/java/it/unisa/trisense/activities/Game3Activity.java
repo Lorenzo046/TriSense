@@ -53,10 +53,10 @@ public class Game3Activity extends AppCompatActivity {
         adapter = new ScoreAdapter(new ArrayList<>());
         rvLeaderboard.setAdapter(adapter);
 
-        // Load Global Leaderboard
+        // Caricamento classifica globale
         loadLeaderboard();
 
-        // Load Local Stats
+        // Caricamento statistiche locali
         TextView tvTopScore = findViewById(R.id.tvTopScore);
         TextView tvAvgScore = findViewById(R.id.tvAvgScore);
 
@@ -80,13 +80,13 @@ public class Game3Activity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Reload leaderboard and local stats when returning from the game
+        // Ricarica la classifica globale e le statistich elocali quando ritorniamo dal gioco
         loadLeaderboard();
 
         TextView tvTopScore = findViewById(R.id.tvTopScore);
         TextView tvAvgScore = findViewById(R.id.tvAvgScore);
 
-        // Load Top Score from Firebase
+        // Carica i top score da FireBase
         LeaderboardManager.getInstance().getUserScore("game3", score -> {
             if (score != -1.0) {
                 if (score % 1 == 0) {
@@ -99,7 +99,7 @@ public class Game3Activity extends AppCompatActivity {
             }
         });
 
-        // Load Average from Local Storage
+        // Carica la media dallo storage locale
         it.unisa.trisense.managers.LocalGameManager localGameManager = new it.unisa.trisense.managers.LocalGameManager(
                 this);
         tvAvgScore.setText(String.format(java.util.Locale.getDefault(), "%.1f", localGameManager.getAvgScore("game3")));

@@ -40,7 +40,7 @@ public class DecibelJumpActivity extends AppCompatActivity {
         View btnExit = findViewById(R.id.btnExit);
         TextView tvScore = findViewById(R.id.tvScore);
 
-        // Pause system
+        // Gestione pausa
         btnPause = findViewById(R.id.btnPause);
         layoutPause = findViewById(R.id.layoutPause);
         View btnResume = findViewById(R.id.btnResume);
@@ -72,7 +72,7 @@ public class DecibelJumpActivity extends AppCompatActivity {
         });
 
         if (checkPermissions()) {
-            // Game will start in onResume
+            // Il gioco inizierà in onResume()
         } else {
             requestPermissions();
         }
@@ -85,12 +85,12 @@ public class DecibelJumpActivity extends AppCompatActivity {
                     layoutGameOver.setVisibility(View.VISIBLE);
                     btnPause.setVisibility(View.GONE);
 
-                    // Save score to Firebase Firestore (only saves if it's a new high score)
+                    // Salva lo score su Firebase Firestore (lo salva solamente se è un nuovo top score)
                     LeaderboardManager.getInstance().saveScore("game1", score, success -> {
-                        // Score saved to Firebase leaderboard
+                        // Salva lo score su Firebase leaderboard
                     });
 
-                    // Save score locally (updates top score and average)
+                    // Salva lo score localmente (aggiorna il top score e la media)
                     LocalGameManager localGameManager = new LocalGameManager(DecibelJumpActivity.this);
                     localGameManager.saveScore("game1", score);
                 });
@@ -98,7 +98,6 @@ public class DecibelJumpActivity extends AppCompatActivity {
 
             @Override
             public void onScoreUpdate(int score) {
-                // Could update a live score view here if we added one
             }
         });
     }

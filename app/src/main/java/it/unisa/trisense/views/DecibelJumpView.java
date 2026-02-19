@@ -25,7 +25,6 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
     private Paint paint;
     private MediaRecorder mediaRecorder;
 
-    // Game Objects
     private Rect player;
     private List<Rect> obstacles;
     private int playerY;
@@ -34,11 +33,10 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
     private int jumpHeight = 0;
     private boolean isJumping = false;
 
-    // Game Config
-    private static final int GRAVITY = 2; // Reduced gravity
-    private static final int JUMP_FORCE = 40; // Increased jump initial force
+    private static final int GRAVITY = 2;
+    private static final int JUMP_FORCE = 40;
     private static final int OBSTACLE_SPEED = 15;
-    private static final int MIC_THRESHOLD = 5000; // Adjust sensitivity
+    private static final int MIC_THRESHOLD = 5000;
     private int screenWidth;
     private int screenHeight;
     private int score = 0;
@@ -67,12 +65,11 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
 
     private void init() {
         surfaceHolder = getHolder();
-        surfaceHolder.addCallback(this); // Register callback
+        surfaceHolder.addCallback(this); // Registra callback
         paint = new Paint();
         obstacles = new ArrayList<>();
-        setFocusable(true); // Ensure view can take focus
-        // setZOrderOnTop(true); // Can obscure other UI
-        setZOrderMediaOverlay(true); // Better for games behind UI
+        setFocusable(true);
+        setZOrderMediaOverlay(true);
         getHolder().setFormat(android.graphics.PixelFormat.RGBA_8888);
     }
 
@@ -85,7 +82,6 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         }
     }
 
-    // SurfaceHolder Callbacks
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("DecibelJump", "Surface Created. isPlaying=" + isPlaying);
@@ -110,14 +106,11 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d("DecibelJump", "Surface Destroyed");
         boolean retry = true;
-        // isPlaying can remain true if we want to resume on create,
-        // but typically valid surface is needed for thread.
-        // We handle thread stopping in stop() method usually.
     }
 
     private long startTime;
-    private boolean isGameStarted = false; // Waiting for user to tap start
-    private boolean isGameRunning = false; // Game logic active
+    private boolean isGameStarted = false;
+    private boolean isGameRunning = false;
     private boolean isPaused = false;
     private long pauseStartTime = 0;
 
@@ -125,15 +118,13 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         if (screenHeight == 0 || screenWidth == 0)
             return;
 
-        // Ground Level Init
         if (groundLevel == 0) {
             groundLevel = screenHeight - 200;
             playerY = groundLevel - 100;
             player = new Rect(playerX, playerY, playerX + 100, playerY + 100);
-            // Don't start time here anymore
         }
 
-        // Show "Tap to Start" state
+        // Mostra "Tocca per iniziare"
         if (!isGameStarted) {
             return;
         }
@@ -144,16 +135,16 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         if (isPaused)
             return;
 
-        // ... game logic ...
+        // ... logica del gioco ...
 
-        // Jump Logic (Audio)
+        // Logica del salto (Audio)
         int amplitude = getAmplitude();
         if (amplitude > MIC_THRESHOLD && !isJumping) {
             isJumping = true;
             jumpHeight = JUMP_FORCE;
         }
 
-        // Physics
+        // Fisica del salto
         if (isJumping) {
             playerY -= jumpHeight;
             jumpHeight -= GRAVITY;
@@ -169,7 +160,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         player.top = playerY;
         player.bottom = playerY + 100;
 
-        // Obstacles (Wait 2 seconds before first spawn)
+        // Ostacoli (aspetta due secondi di attesa prima di spawnare un nuovo ostacolo)
         if (System.currentTimeMillis() - startTime > 2000) {
             if (obstacles.isEmpty() || obstacles.get(obstacles.size() - 1).left < screenWidth - 600) {
                 spawnObstacle();
@@ -182,14 +173,11 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             obstacle.left -= OBSTACLE_SPEED;
             obstacle.right -= OBSTACLE_SPEED;
 
-            // Debug Collision
-            // Log.d("Game", "Player: " + player + " Obstacle: " + obstacle);
 
             if (Rect.intersects(player, obstacle)) {
-                // Refine collision box - allow small overlap
                 Rect intersection = new Rect(player);
                 if (intersection.intersect(obstacle)) {
-                    // Check if intersection is significant (e.g., more than 10 pixels)
+                    // Controlla se l'intersezione è significativa è più di 20x20
                     if (intersection.width() > 20 && intersection.height() > 20) {
                         Log.d("DecibelJump", "Game Over! Collision at Score: " + score + " PlayerY: " + playerY);
                         isPlaying = false;
@@ -211,11 +199,10 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         }
     }
 
-    // ... (draw and control methods remain same)
+    // ... (disegna e controlla i metodi se rimangono gli stessi)
 
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
-            // Log.d("DecibelJump", "Drawing frame..."); // Uncomment if needed, spammy
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas == null) {
                 Log.e("DecibelJump", "Canvas is null despite valid surface!");
@@ -225,21 +212,8 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             // Background
             canvas.drawColor(Color.rgb(30, 30, 80));
 
-            // Log heartbeat every 60 frames (~1 sec)
-            if (System.currentTimeMillis() % 1000 < 20) {
-                Log.d("DecibelJump", "Drawing frame... isGameStarted=" + isGameStarted);
-            }
-
-            // Debug Text (Removed)
-            /*
-             * paint.setColor(Color.WHITE);
-             * paint.setTextSize(50);
-             * canvas.drawText("DEBUG: " + screenWidth + "x" + screenHeight + " Started=" +
-             * isGameStarted, 50, 50, paint);
-             */
-
             if (groundLevel > 0) {
-                // Ground
+                // Terreno
                 paint.setColor(Color.WHITE);
                 canvas.drawRect(0, groundLevel, screenWidth, screenHeight, paint);
 
@@ -249,19 +223,19 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
                     canvas.drawRect(player, paint);
                 }
 
-                // Obstacles
+                // Ostacoli
                 paint.setColor(Color.MAGENTA);
                 for (Rect obstacle : obstacles) {
                     canvas.drawRect(obstacle, paint);
                 }
             }
 
-            // Score
+            // Punteggio
             paint.setColor(Color.WHITE);
             paint.setTextSize(60);
             canvas.drawText("Score: " + score, 50, 100, paint);
 
-            // Ready / Tap to Start Message
+            // Pronti / Tocca per iniziare
             if (!isGameStarted) {
                 paint.setTextSize(80);
                 paint.setColor(Color.YELLOW);
@@ -294,8 +268,6 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         Random random = new Random();
         int height = 100 + random.nextInt(100);
         int top = groundLevel - height;
-
-        // Spawn slightly off-screen to avoid pop-in
         int spawnX = screenWidth + 100;
 
         Rect obstacle = new Rect(spawnX, top, spawnX + 100, groundLevel);
@@ -374,7 +346,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         obstacles.clear();
         isJumping = false;
         isGameRunning = false;
-        isGameStarted = false; // Require tap again
+        isGameStarted = false; // Chiede di cliccare di nuovo
         isPaused = false;
 
         if (groundLevel > 0) {
@@ -386,23 +358,21 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             }
         }
 
-        // isPlaying is managed by start/stop
-        // When reset is called, we usually want to be ready to play
+        // isPlaying è gestito da start/stop
         if (gameEventListener != null) {
             gameEventListener.onScoreUpdate(0);
         }
-        // Force redraw
+        // Forza il redraw
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
-                canvas.drawColor(Color.rgb(30, 30, 80)); // Clear screen with new color
-                // You might want to draw the initial state here
+                canvas.drawColor(Color.rgb(30, 30, 80)); // Pulisce lo schermo con nuovi colori
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }
     }
 
-    // ... (startRecording, stopRecording, getAmplitude, onSizeChanged remain same)
+    // ... (startRecording, stopRecording, getAmplitude, onSizeChanged)
 
     private void startRecording() {
         if (mediaRecorder == null) {
@@ -411,7 +381,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
-            // Use a real file in cache directory
+            // Usa un file reale nelle directory delle cache
             String filePath = getContext().getExternalCacheDir().getAbsolutePath() + "/audiorecordtest.3gp";
             mediaRecorder.setOutputFile(filePath);
 
@@ -436,7 +406,6 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             try {
                 mediaRecorder.stop();
             } catch (RuntimeException e) {
-                // Ignore if called immediately after start or if start failed
             }
             mediaRecorder.release();
             mediaRecorder = null;

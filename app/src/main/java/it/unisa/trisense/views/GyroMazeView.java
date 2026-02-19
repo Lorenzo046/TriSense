@@ -26,45 +26,37 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
     private Paint paint;
     private Random random;
 
-    // Game state
     private boolean isGameStarted = false;
     private boolean isGameRunning = false;
     private boolean isPaused = false;
     private int score = 0;
 
-    // Ball
     private float ballX, ballY;
     private float ballRadius = 30;
     private float ballSpeedX = 0, ballSpeedY = 0;
     private static final float SPEED_MULTIPLIER = 2.5f;
     private static final float DAMPING = 0.85f;
 
-    // Sensor input
     private float sensorX = 0, sensorY = 0;
 
-    // Coins
     private List<RectF> coins;
     private float coinRadius = 20;
     private static final int MAX_COINS = 5;
     private long lastCoinSpawnTime = 0;
     private static final long COIN_SPAWN_INTERVAL = 2000;
 
-    // Obstacles
     private List<RectF> obstacles;
     private static final int MAX_OBSTACLES = 8;
     private long lastObstacleSpawnTime = 0;
     private static final long OBSTACLE_SPAWN_INTERVAL = 3000;
     private int difficultyLevel = 1;
 
-    // Screen
     private int screenWidth;
     private int screenHeight;
 
-    // Timing for pause compensation
     private long pauseStartTime = 0;
     private long totalPausedTime = 0;
 
-    // Listener
     private OnGameEventListener gameEventListener;
 
     public interface OnGameEventListener {
