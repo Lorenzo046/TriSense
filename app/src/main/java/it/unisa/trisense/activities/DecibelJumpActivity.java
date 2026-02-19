@@ -1,6 +1,7 @@
 package it.unisa.trisense.activities;
 
 import android.Manifest;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -134,6 +135,12 @@ public class DecibelJumpActivity extends AppCompatActivity {
         if (checkPermissions()) {
             gameView.start();
         }
+    }
+
+    @Override
+    public void finish() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        super.finish();
     }
 
     @Override
