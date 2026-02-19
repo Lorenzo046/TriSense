@@ -101,10 +101,10 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
         }
     }
 
-    // SurfaceHolder Callbacks
+    // Callback del SurfaceHolder
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(TAG, "Surface Created. isPlaying=" + isPlaying);
+        Log.d(TAG, "Superficie creata. isPlaying=" + isPlaying);
         if (isPlaying) {
             if (gameThread == null || !gameThread.isAlive()) {
                 gameThread = new Thread(this);
@@ -121,13 +121,14 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TAG, "Surface Destroyed");
+        Log.d(TAG, "Superficie distrutta");
     }
 
     public void updateSensor(float x, float y) {
-        // Accelerometer: x is positive when tilted right, y positive when tilted down
-        // We negate x because tilting right should move ball right (sensor gives
-        // negative x)
+        // Accelerometro: x è positivo quando inclinato a destra, y positivo quando
+        // inclinato in basso
+        // Neghiamo x perché inclinando a destra la pallina deve muoversi a destra (il
+        // sensore restituisce x negativo)
         this.sensorX = -x;
         this.sensorY = y;
     }
@@ -142,25 +143,25 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
 
         long now = System.currentTimeMillis();
 
-        // Initialize ball at center
+        // Inizializza la pallina al centro
         if (ballX == 0 && ballY == 0) {
             ballX = screenWidth / 2f;
             ballY = screenHeight / 2f;
         }
 
-        // Update ball velocity based on sensor
+        // Aggiorna la velocità della pallina in base al sensore
         ballSpeedX += sensorX * SPEED_MULTIPLIER;
         ballSpeedY += sensorY * SPEED_MULTIPLIER;
 
-        // Apply damping
+        // Applica lo smorzamento
         ballSpeedX *= DAMPING;
         ballSpeedY *= DAMPING;
 
-        // Update ball position
+        // Aggiorna la posizione della pallina
         ballX += ballSpeedX;
         ballY += ballSpeedY;
 
-        // Boundary clamping
+        // Limiti dello schermo
         if (ballX - ballRadius < 0) {
             ballX = ballRadius;
             ballSpeedX = 0;
@@ -178,16 +179,16 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             ballSpeedY = 0;
         }
 
-        // Difficulty scaling every 10 coins
+        // Aumento della difficoltà ogni 10 monete
         difficultyLevel = 1 + (score / 10);
 
-        // Spawn coins
+        // Genera monete
         if (coins.size() < MAX_COINS && now - lastCoinSpawnTime > COIN_SPAWN_INTERVAL) {
             spawnCoin();
             lastCoinSpawnTime = now;
         }
 
-        // Spawn obstacles
+        // Genera ostacoli
         long adjustedInterval = Math.max(1500, OBSTACLE_SPAWN_INTERVAL - (difficultyLevel - 1) * 300L);
         int maxObs = Math.min(MAX_OBSTACLES + difficultyLevel, 15);
         if (obstacles.size() < maxObs && now - lastObstacleSpawnTime > adjustedInterval) {
@@ -195,7 +196,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             lastObstacleSpawnTime = now;
         }
 
-        // Check coin collection
+        // Controlla la raccolta delle monete
         Iterator<RectF> coinIter = coins.iterator();
         while (coinIter.hasNext()) {
             RectF coin = coinIter.next();
@@ -211,9 +212,9 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             }
         }
 
-        // Check obstacle collision
+        // Controlla la collisione con gli ostacoli
         for (RectF obstacle : obstacles) {
-            // Find closest point on rectangle to ball center
+            // Trova il punto più vicino del rettangolo al centro della pallina
             float closestX = Math.max(obstacle.left, Math.min(ballX, obstacle.right));
             float closestY = Math.max(obstacle.top, Math.min(ballY, obstacle.bottom));
             float dx = ballX - closestX;
@@ -221,7 +222,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             float dist = (float) Math.sqrt(dx * dx + dy * dy);
 
             if (dist < ballRadius) {
-                Log.d(TAG, "Game Over! Collision at Score: " + score);
+                Log.d(TAG, "Fine partita! Collisione al punteggio: " + score);
                 isGameRunning = false;
                 if (gameEventListener != null) {
                     gameEventListener.onGameOver(score);
@@ -236,11 +237,11 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
         float cx = padding + random.nextFloat() * (screenWidth - 2 * padding);
         float cy = padding + random.nextFloat() * (screenHeight - 2 * padding);
 
-        // Ensure it doesn't overlap with obstacles
+        // Assicura che non si sovrapponga agli ostacoli
         RectF coinRect = new RectF(cx - coinRadius, cy - coinRadius, cx + coinRadius, cy + coinRadius);
         for (RectF obs : obstacles) {
             if (RectF.intersects(coinRect, obs)) {
-                return; // Skip this spawn; will try again next cycle
+                return; // Salta questa generazione; riproverà al ciclo successivo
             }
         }
         coins.add(coinRect);
@@ -252,15 +253,15 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
         float w, h;
 
         switch (type) {
-            case 0: // Small square
+            case 0: // Quadrato piccolo
                 w = 60 + random.nextInt(40);
                 h = w;
                 break;
-            case 1: // Horizontal bar
+            case 1: // Barra orizzontale
                 w = 120 + random.nextInt(100);
                 h = 30 + random.nextInt(20);
                 break;
-            default: // Vertical bar
+            default: // Barra verticale
                 w = 30 + random.nextInt(20);
                 h = 120 + random.nextInt(100);
                 break;
@@ -271,22 +272,23 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
 
         RectF obsRect = new RectF(ox, oy, ox + w, oy + h);
 
-        // Ensure it doesn't overlap with ball start area (center of screen)
+        // Assicura che non si sovrapponga all'area iniziale della pallina (centro dello
+        // schermo)
         float cx = screenWidth / 2f;
         float cy = screenHeight / 2f;
         float safeZone = 150;
         if (Math.abs(obsRect.centerX() - cx) < safeZone && Math.abs(obsRect.centerY() - cy) < safeZone) {
-            return; // Don't spawn in center
+            return; // Non generare al centro
         }
 
-        // Ensure it doesn't collide with the ball's current position
+        // Assicura che non collida con la posizione corrente della pallina
         float closestX = Math.max(obsRect.left, Math.min(ballX, obsRect.right));
         float closestY = Math.max(obsRect.top, Math.min(ballY, obsRect.bottom));
         float dx = ballX - closestX;
         float dy = ballY - closestY;
         float dist = (float) Math.sqrt(dx * dx + dy * dy);
         if (dist < ballRadius + 50) {
-            return; // Too close to ball
+            return; // Troppo vicino alla pallina
         }
 
         obstacles.add(obsRect);
@@ -300,10 +302,10 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
         if (canvas == null)
             return;
 
-        // Background — dark navy
+        // Sfondo - blu scuro
         canvas.drawColor(Color.rgb(15, 15, 50));
 
-        // Draw grid pattern for visual effect
+        // Disegna la griglia per effetto visivo
         paint.setColor(Color.argb(25, 0, 255, 255));
         paint.setStrokeWidth(1);
         for (int x = 0; x < screenWidth; x += 50) {
@@ -314,7 +316,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
         }
 
         if (!isGameStarted) {
-            // "Tap to Start" screen
+            // Schermata "Tocca per iniziare"
             paint.setTextSize(80);
             paint.setColor(Color.YELLOW);
             String text = "TOCCA PER INIZIARE";
@@ -327,44 +329,44 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             float subWidth = paint.measureText(sub);
             canvas.drawText(sub, (screenWidth - subWidth) / 2f, screenHeight / 2f + 60, paint);
         } else if (isGameRunning || isPaused) {
-            // Draw obstacles
+            // Disegna gli ostacoli
             for (RectF obstacle : obstacles) {
-                // Glow
+                // Bagliore
                 paint.setColor(Color.argb(40, 255, 50, 50));
                 canvas.drawRoundRect(
                         new RectF(obstacle.left - 4, obstacle.top - 4, obstacle.right + 4, obstacle.bottom + 4),
                         6, 6, paint);
-                // Obstacle body
+                // Corpo dell'ostacolo
                 paint.setColor(Color.rgb(255, 50, 80));
                 canvas.drawRoundRect(obstacle, 4, 4, paint);
             }
 
-            // Draw coins
+            // Disegna le monete
             for (RectF coin : coins) {
-                // Glow
+                // Bagliore
                 paint.setColor(Color.argb(60, 255, 215, 0));
                 canvas.drawCircle(coin.centerX(), coin.centerY(), coinRadius + 8, paint);
-                // Coin body
+                // Corpo della moneta
                 paint.setColor(Color.rgb(255, 215, 0));
                 canvas.drawCircle(coin.centerX(), coin.centerY(), coinRadius, paint);
-                // Inner highlight
+                // Riflesso interno
                 paint.setColor(Color.argb(100, 255, 255, 200));
                 canvas.drawCircle(coin.centerX() - 5, coin.centerY() - 5, coinRadius * 0.4f, paint);
             }
 
-            // Draw ball
-            // Glow
+            // Disegna la pallina
+            // Bagliore
             paint.setColor(Color.argb(50, 0, 255, 255));
             canvas.drawCircle(ballX, ballY, ballRadius + 12, paint);
-            // Ball body
+            // Corpo della pallina
             paint.setColor(Color.CYAN);
             canvas.drawCircle(ballX, ballY, ballRadius, paint);
-            // Inner highlight
+            // Riflesso interno
             paint.setColor(Color.argb(120, 255, 255, 255));
             canvas.drawCircle(ballX - ballRadius * 0.25f, ballY - ballRadius * 0.25f,
                     ballRadius * 0.35f, paint);
 
-            // Score
+            // Punteggio
             paint.setColor(Color.WHITE);
             paint.setTextSize(50);
             canvas.drawText("Monete: " + score, 50, 80, paint);
@@ -373,7 +375,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             paint.setColor(Color.rgb(180, 180, 180));
             canvas.drawText("Livello: " + difficultyLevel, 50, 130, paint);
 
-            // Paused text
+            // Testo di pausa
             if (isPaused) {
                 paint.setTextSize(80);
                 paint.setColor(Color.YELLOW);
@@ -382,7 +384,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
                 canvas.drawText(pauseText, (screenWidth - tw) / 2f, screenHeight / 2f, paint);
             }
         } else if (!isGameRunning && isGameStarted) {
-            // Game over drawn by canvas (overlay will handle main UI)
+            // Fine partita disegnata sul canvas (l'overlay gestirà la UI principale)
             paint.setTextSize(80);
             paint.setColor(Color.RED);
             String text = "GAME OVER";
@@ -420,7 +422,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
     }
 
     public void start() {
-        Log.d(TAG, "Start called. isPlaying=" + isPlaying);
+        Log.d(TAG, "Avvio chiamato. isPlaying=" + isPlaying);
         isPlaying = true;
 
         if (gameThread != null && gameThread.isAlive()) {
@@ -454,7 +456,8 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
         if (isPaused) {
             long pausedDuration = System.currentTimeMillis() - pauseStartTime;
             totalPausedTime += pausedDuration;
-            // Adjust spawn timers so we don't get a burst of spawns after resume
+            // Aggiusta i timer di generazione per evitare una raffica di generazioni dopo
+            // la ripresa
             lastCoinSpawnTime += pausedDuration;
             lastObstacleSpawnTime += pausedDuration;
         }
@@ -489,7 +492,7 @@ public class GyroMazeView extends SurfaceView implements Runnable, SurfaceHolder
             gameEventListener.onScoreUpdate(0);
         }
 
-        // Force redraw
+        // Forza il ridisegno
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {

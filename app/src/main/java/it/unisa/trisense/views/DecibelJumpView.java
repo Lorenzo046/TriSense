@@ -65,7 +65,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
 
     private void init() {
         surfaceHolder = getHolder();
-        surfaceHolder.addCallback(this); // Registra callback
+        surfaceHolder.addCallback(this); // Registra il callback
         paint = new Paint();
         obstacles = new ArrayList<>();
         setFocusable(true);
@@ -84,10 +84,10 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d("DecibelJump", "Surface Created. isPlaying=" + isPlaying);
+        Log.d("DecibelJump", "Superficie creata. isPlaying=" + isPlaying);
         if (isPlaying) {
             if (gameThread == null || !gameThread.isAlive()) {
-                Log.d("DecibelJump", "Starting thread from surfaceCreated.");
+                Log.d("DecibelJump", "Avvio del thread da surfaceCreated.");
                 gameThread = new Thread(this);
                 gameThread.start();
                 startRecording();
@@ -97,14 +97,14 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.d("DecibelJump", "Surface Changed: " + width + "x" + height);
+        Log.d("DecibelJump", "Superficie modificata: " + width + "x" + height);
         screenWidth = width;
         screenHeight = height;
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d("DecibelJump", "Surface Destroyed");
+        Log.d("DecibelJump", "Superficie distrutta");
         boolean retry = true;
     }
 
@@ -124,7 +124,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             player = new Rect(playerX, playerY, playerX + 100, playerY + 100);
         }
 
-        // Mostra "Tocca per iniziare"
+        // Mostra il messaggio "Tocca per iniziare"
         if (!isGameStarted) {
             return;
         }
@@ -135,9 +135,9 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         if (isPaused)
             return;
 
-        // ... logica del gioco ...
+        // Logica principale del gioco
 
-        // Logica del salto (Audio)
+        // Logica del salto basata sull'audio
         int amplitude = getAmplitude();
         if (amplitude > MIC_THRESHOLD && !isJumping) {
             isJumping = true;
@@ -154,13 +154,13 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             }
         } else {
             if (playerY < groundLevel - 100) {
-                playerY += GRAVITY * 2; // Fall faster
+                playerY += GRAVITY * 2; // Caduta più veloce
             }
         }
         player.top = playerY;
         player.bottom = playerY + 100;
 
-        // Ostacoli (aspetta due secondi di attesa prima di spawnare un nuovo ostacolo)
+        // Ostacoli (attende due secondi prima di generare un nuovo ostacolo)
         if (System.currentTimeMillis() - startTime > 2000) {
             if (obstacles.isEmpty() || obstacles.get(obstacles.size() - 1).left < screenWidth - 600) {
                 spawnObstacle();
@@ -173,13 +173,13 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             obstacle.left -= OBSTACLE_SPEED;
             obstacle.right -= OBSTACLE_SPEED;
 
-
             if (Rect.intersects(player, obstacle)) {
                 Rect intersection = new Rect(player);
                 if (intersection.intersect(obstacle)) {
-                    // Controlla se l'intersezione è significativa è più di 20x20
+                    // Controlla se l'intersezione è significativa (più di 20x20)
                     if (intersection.width() > 20 && intersection.height() > 20) {
-                        Log.d("DecibelJump", "Game Over! Collision at Score: " + score + " PlayerY: " + playerY);
+                        Log.d("DecibelJump",
+                                "Fine partita! Collisione al punteggio: " + score + " PlayerY: " + playerY);
                         isPlaying = false;
                         isGameRunning = false;
                         if (gameEventListener != null) {
@@ -199,17 +199,17 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         }
     }
 
-    // ... (disegna e controlla i metodi se rimangono gli stessi)
+    // Metodi di disegno e controllo
 
     private void draw() {
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas == null) {
-                Log.e("DecibelJump", "Canvas is null despite valid surface!");
+                Log.e("DecibelJump", "Il canvas è null nonostante la superficie sia valida!");
                 return;
             }
 
-            // Background
+            // Sfondo
             canvas.drawColor(Color.rgb(30, 30, 80));
 
             if (groundLevel > 0) {
@@ -217,7 +217,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
                 paint.setColor(Color.WHITE);
                 canvas.drawRect(0, groundLevel, screenWidth, screenHeight, paint);
 
-                // Player
+                // Giocatore
                 if (player != null) {
                     paint.setColor(Color.CYAN);
                     canvas.drawRect(player, paint);
@@ -235,7 +235,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             paint.setTextSize(60);
             canvas.drawText("Score: " + score, 50, 100, paint);
 
-            // Pronti / Tocca per iniziare
+            // Messaggi di stato: Pronti / Tocca per iniziare
             if (!isGameStarted) {
                 paint.setTextSize(80);
                 paint.setColor(Color.YELLOW);
@@ -288,22 +288,22 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
     }
 
     public void start() {
-        Log.d("DecibelJump", "Start called. isPlaying=" + isPlaying + " SurfaceValid="
+        Log.d("DecibelJump", "Avvio chiamato. isPlaying=" + isPlaying + " SuperficieValida="
                 + (surfaceHolder != null && surfaceHolder.getSurface().isValid()));
         isPlaying = true;
 
         if (gameThread != null && gameThread.isAlive()) {
-            Log.d("DecibelJump", "Thread already running.");
+            Log.d("DecibelJump", "Il thread è già in esecuzione.");
             return;
         }
 
         if (surfaceHolder != null && surfaceHolder.getSurface().isValid()) {
-            Log.d("DecibelJump", "Surface valid, starting thread immediately.");
+            Log.d("DecibelJump", "Superficie valida, avvio immediato del thread.");
             gameThread = new Thread(this);
             gameThread.start();
             startRecording();
         } else {
-            Log.d("DecibelJump", "Surface not valid yet, waiting for surfaceCreated.");
+            Log.d("DecibelJump", "Superficie non ancora valida, in attesa di surfaceCreated.");
         }
     }
 
@@ -346,11 +346,11 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         obstacles.clear();
         isJumping = false;
         isGameRunning = false;
-        isGameStarted = false; // Chiede di cliccare di nuovo
+        isGameStarted = false; // Richiede un nuovo tocco per iniziare
         isPaused = false;
 
         if (groundLevel > 0) {
-            // ...
+            // Reimposta la posizione del giocatore
             playerY = groundLevel - 100;
             if (player != null) {
                 player.top = playerY;
@@ -362,17 +362,17 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
         if (gameEventListener != null) {
             gameEventListener.onScoreUpdate(0);
         }
-        // Forza il redraw
+        // Forza il ridisegno dello schermo
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
-                canvas.drawColor(Color.rgb(30, 30, 80)); // Pulisce lo schermo con nuovi colori
+                canvas.drawColor(Color.rgb(30, 30, 80)); // Pulisce lo schermo
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
         }
     }
 
-    // ... (startRecording, stopRecording, getAmplitude, onSizeChanged)
+    // Gestione della registrazione audio, ampiezza e ridimensionamento
 
     private void startRecording() {
         if (mediaRecorder == null) {
@@ -381,7 +381,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
             mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
-            // Usa un file reale nelle directory delle cache
+            // Usa un file temporaneo nella directory della cache
             String filePath = getContext().getExternalCacheDir().getAbsolutePath() + "/audiorecordtest.3gp";
             mediaRecorder.setOutputFile(filePath);
 
@@ -392,7 +392,7 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
                 e.printStackTrace();
                 stopRecording();
             } catch (SecurityException e) {
-                Log.e("DecibelJump", "Permission denied for audio recording", e);
+                Log.e("DecibelJump", "Permesso negato per la registrazione audio", e);
                 stopRecording();
             } catch (RuntimeException e) {
                 e.printStackTrace();

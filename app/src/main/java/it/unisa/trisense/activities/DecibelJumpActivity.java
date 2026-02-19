@@ -85,7 +85,8 @@ public class DecibelJumpActivity extends AppCompatActivity {
                     layoutGameOver.setVisibility(View.VISIBLE);
                     btnPause.setVisibility(View.GONE);
 
-                    // Salva lo score su Firebase Firestore (lo salva solamente se è un nuovo top score)
+                    // Salva lo score su Firebase Firestore (lo salva solamente se è un nuovo top
+                    // score)
                     LeaderboardManager.getInstance().saveScore("game1", score, success -> {
                         // Salva lo score su Firebase leaderboard
                     });
@@ -118,7 +119,7 @@ public class DecibelJumpActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startGame();
             } else {
-                Toast.makeText(this, "Permission Denied. Game cannot start.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permesso negato. Il gioco non può iniziare.", Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

@@ -3,7 +3,7 @@ package it.unisa.trisense.models;
 public class ScoreEntry {
     private String userId;
     private String username;
-    private double score; // Using double to support both int and float scores (e.g. time)
+    private double score; // Utilizzo di double per supportare punteggi interi e decimali (es. tempo)
 
     public ScoreEntry() {
     }

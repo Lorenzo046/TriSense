@@ -12,13 +12,13 @@ public class LocalGameManager {
     }
 
     public void saveScore(String gameId, int score) {
-        // Update Top Score
+        // Aggiorna il punteggio massimo
         int currentTop = getTopScore(gameId);
         if (score > currentTop) {
             prefs.edit().putInt(gameId + "_top", score).apply();
         }
 
-        // Update Average
+        // Aggiorna la media
         float currentAvg = getAvgScore(gameId);
         int playCount = prefs.getInt(gameId + "_count", 0);
 

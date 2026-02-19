@@ -6,7 +6,8 @@ public class User {
     private String email;
 
     public User() {
-        // Default constructor required for calls to DataSnapshot.getValue(User.class)
+        // Costruttore vuoto richiesto per le chiamate a
+        // DataSnapshot.getValue(User.class)
     }
 
     public User(String id, String username, String email) {

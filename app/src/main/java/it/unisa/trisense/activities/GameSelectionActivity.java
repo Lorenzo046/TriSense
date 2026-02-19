@@ -49,7 +49,7 @@ public class GameSelectionActivity extends AppCompatActivity {
         MaterialCardView cardGame3 = findViewById(R.id.cardGame3);
         cardGame3.setOnClickListener(v -> openGame(game3));
 
-        // Profile button
+        // Pulsante profilo
         findViewById(R.id.btnProfile).setOnClickListener(v -> {
             Intent intent = new Intent(GameSelectionActivity.this, ProfileActivity.class);
             startActivity(intent);

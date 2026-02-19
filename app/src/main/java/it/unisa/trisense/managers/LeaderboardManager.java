@@ -38,24 +38,20 @@ public class LeaderboardManager {
 
         String userId = auth.getCurrentUser().getUid();
 
-        // 1. Get current user username
+        // 1. Ottieni il nome utente dell'utente corrente
         db.collection("users").document(userId).get().addOnSuccessListener(documentSnapshot -> {
             User user = documentSnapshot.toObject(User.class);
             if (user != null) {
-                // 2. Check existing score
+                // 2. Controlla il punteggio esistente
                 db.collection("scores").document(gameId)
                         .collection("user_scores").document(userId)
                         .get()
                         .addOnSuccessListener(scoreSnapshot -> {
                             ScoreEntry currentEntry = scoreSnapshot.toObject(ScoreEntry.class);
 
-                            // Check if new score is better (Higher is better? Or lower? Assuming Higher for
-                            // now, can be adjusted)
-                            // NOTE: User didn't specify game rules. Game 1/2/3 might have different
-                            // scoring.
-                            // Assuming HIGHER is better for generic leaderboard. If time based, might be
-                            // LOWER.
-                            // Defaulting to HIGHER is better.
+                            // Controlla se il nuovo punteggio è migliore (più alto è meglio)
+                            // NOTA: Giochi diversi potrebbero avere logiche di punteggio differenti.
+                            // Per la classifica generica, si assume che il punteggio PIÙ ALTO sia migliore.
 
                             if (currentEntry == null || score > currentEntry.getScore()) {
                                 ScoreEntry newEntry = new ScoreEntry(userId, user.getUsername(), score);
@@ -65,7 +61,7 @@ public class LeaderboardManager {
                                         .addOnSuccessListener(aVoid -> callback.accept(true))
                                         .addOnFailureListener(e -> callback.accept(false));
                             } else {
-                                callback.accept(true); // Score not high enough, but operation "successful"
+                                callback.accept(true); // Punteggio non sufficientemente alto, ma operazione "riuscita"
                             }
                         })
                         .addOnFailureListener(e -> callback.accept(false));
@@ -106,7 +102,7 @@ public class LeaderboardManager {
                     if (entry != null) {
                         callback.accept(entry.getScore());
                     } else {
-                        callback.accept(-1.0); // No score found
+                        callback.accept(-1.0); // Nessun punteggio trovato
                     }
                 })
                 .addOnFailureListener(e -> callback.accept(-1.0));

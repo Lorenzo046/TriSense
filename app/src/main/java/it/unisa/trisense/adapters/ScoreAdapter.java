@@ -39,7 +39,8 @@ public class ScoreAdapter extends RecyclerView.Adapter<ScoreAdapter.ScoreViewHol
         holder.tvRank.setText((position + 1) + ".");
         holder.tvUsername.setText(entry.getUsername());
 
-        // Format score based on value (integer if no decimal, or 1 decimal place)
+        // Formatta il punteggio in base al valore (intero se senza decimali, oppure con
+        // 1 cifra decimale)
         if (entry.getScore() % 1 == 0) {
             holder.tvScore.setText(String.valueOf((int) entry.getScore()));
         } else {

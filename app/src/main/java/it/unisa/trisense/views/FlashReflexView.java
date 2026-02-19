@@ -58,7 +58,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     private long feedbackTime = 0;
     private int feedbackColor = Color.WHITE;
 
-    // Listener
+    // Listener per gli eventi di gioco
     private OnGameEventListener gameEventListener;
 
     public interface OnGameEventListener {
@@ -103,7 +103,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(TAG, "Surface Created. isPlaying=" + isPlaying);
+        Log.d(TAG, "Superficie creata. isPlaying=" + isPlaying);
         if (isPlaying) {
             if (gameThread == null || !gameThread.isAlive()) {
                 gameThread = new Thread(this);
@@ -120,7 +120,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TAG, "Surface Destroyed");
+        Log.d(TAG, "Superficie distrutta");
     }
 
     private void update() {
@@ -152,7 +152,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                 lastCircleEndTime = now;
             }
         } else {
-            // Cerchio non visibile - aspetta una pausa prima di mostrare il prossimo
+            // Cerchio non visibile - attende una pausa prima di mostrare il prossimo
             if (now - lastCircleEndTime >= pauseBetweenRounds) {
                 spawnCircle();
             }
@@ -162,16 +162,16 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     private void spawnCircle() {
         circleTapped = false;
 
-        // Calcola il livello di difficolta: incrementa ogni 10 tap
+        // Calcola il livello di difficoltà: incrementa ogni 10 tap
         difficultyLevel = 1 + (score / 10);
 
-        // Calcola la durata in cui viene mostarto un cerchio in base alla difficoltà
+        // Calcola la durata di visualizzazione del cerchio in base alla difficoltà
         // Livello 1: 1500ms, decremento di 100ms per livello, minimo 400ms
         circleDisplayDuration = Math.max(400, 1500 - ((difficultyLevel - 1) * 100L));
 
         // Posizioni random (con il padding per avere tutti i cerchi nello schermo)
         float padding = circleRadius + 40;
-        float topPadding = padding + 150; // Extra top padding for score text
+        float topPadding = padding + 150; // Padding extra in alto per il testo del punteggio
         circleX = padding + random.nextFloat() * (screenWidth - 2 * padding);
         circleY = topPadding + random.nextFloat() * (screenHeight - topPadding - padding);
 
@@ -181,8 +181,8 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         circleVisible = true;
         circleSpawnTime = System.currentTimeMillis();
 
-        Log.d(TAG, "Spawned circle at (" + circleX + "," + circleY
-                + ") duration=" + circleDisplayDuration + "ms level=" + difficultyLevel);
+        Log.d(TAG, "Cerchio generato a (" + circleX + "," + circleY
+                + ") durata=" + circleDisplayDuration + "ms livello=" + difficultyLevel);
     }
 
     private void draw() {
@@ -195,10 +195,10 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
 
         long now = System.currentTimeMillis();
 
-        // Background - nero
+        // Sfondo - nero
         canvas.drawColor(Color.rgb(20, 20, 50));
 
-        // Punteggio e livello info
+        // Punteggio e informazioni livello
         paint.setColor(Color.WHITE);
         paint.setTextSize(50);
         canvas.drawText("Score: " + score, 50, 80, paint);
@@ -208,7 +208,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
         canvas.drawText("Livello: " + difficultyLevel, 50, 130, paint);
 
         if (!isGameStarted) {
-            // "Tocca per iniziare" schermo
+            // Schermata "Tocca per iniziare"
             paint.setTextSize(80);
             paint.setColor(Color.YELLOW);
             String text = "TOCCA PER INIZIARE";
@@ -221,13 +221,13 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
             float subWidth = paint.measureText(sub);
             canvas.drawText(sub, (screenWidth - subWidth) / 2f, screenHeight / 2f + 60, paint);
         } else if (isGameRunning) {
-            // Disegna la downbar per i cerchi
+            // Disegna la barra di tempo per i cerchi
             if (circleVisible) {
                 float elapsed = now - circleSpawnTime;
                 float remaining = 1f - (elapsed / (float) circleDisplayDuration);
                 remaining = Math.max(0, Math.min(1, remaining));
 
-                // Tempo della barra superiore
+                // Barra del tempo in alto
                 paint.setColor(remaining > 0.3f ? Color.GREEN : Color.RED);
                 canvas.drawRect(0, 0, screenWidth * remaining, 8, paint);
 
@@ -251,7 +251,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                 canvas.drawText(feedbackText, (screenWidth - tw) / 2f, screenHeight / 2f + 200, paint);
             }
         } else if (!isGameRunning && isGameStarted) {
-            // Game over punteggio
+            // Schermata di fine partita
             paint.setTextSize(80);
             paint.setColor(Color.RED);
             String text = "GAME OVER";
@@ -285,13 +285,13 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                 float touchX = event.getX();
                 float touchY = event.getY();
 
-                // Controlla se il toco è nel cerchio
+                // Controlla se il tocco è nel cerchio
                 float dx = touchX - circleX;
                 float dy = touchY - circleY;
                 float distance = (float) Math.sqrt(dx * dx + dy * dy);
 
-                if (distance <= circleRadius + 20) { // Piccola tolleranza per il click
-                    // Presooooo!
+                if (distance <= circleRadius + 20) { // Piccola tolleranza per il tocco
+                    // Preso!
                     circleTapped = true;
                     score++;
                     circleVisible = false;
@@ -305,7 +305,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
                         gameEventListener.onScoreUpdate(score);
                     }
 
-                    Log.d(TAG, "Circle tapped! Score: " + score);
+                    Log.d(TAG, "Cerchio toccato! Punteggio: " + score);
                     return true;
                 }
             }
@@ -314,7 +314,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
     }
 
     public void start() {
-        Log.d(TAG, "Start called. isPlaying=" + isPlaying);
+        Log.d(TAG, "Avvio chiamato. isPlaying=" + isPlaying);
         isPlaying = true;
 
         if (gameThread != null && gameThread.isAlive()) {
@@ -379,7 +379,7 @@ public class FlashReflexView extends SurfaceView implements Runnable, SurfaceHol
             gameEventListener.onScoreUpdate(0);
         }
 
-        // Forza redraw
+        // Forza il ridisegno
         if (surfaceHolder.getSurface().isValid()) {
             Canvas canvas = surfaceHolder.lockCanvas();
             if (canvas != null) {
