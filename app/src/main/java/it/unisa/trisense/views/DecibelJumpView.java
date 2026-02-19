@@ -261,18 +261,6 @@ public class DecibelJumpView extends SurfaceView implements Runnable, SurfaceHol
             paint.setTextSize(60);
             canvas.drawText("Score: " + score, 50, 100, paint);
 
-            // Amplitude Debug/Visualization
-            int amp = getAmplitude();
-            paint.setTextSize(40);
-            canvas.drawText("Mic: " + amp + " / " + MIC_THRESHOLD, 50, 200, paint);
-
-            // Visual Bar for Mic
-            float barHeight = (float) amp / 32767 * 500; // Max amplitude is 32767
-            paint.setColor(Color.GREEN);
-            if (amp > MIC_THRESHOLD)
-                paint.setColor(Color.RED); // Threshold hit
-            canvas.drawRect(50, 250, 100, 250 + barHeight, paint);
-
             // Ready / Tap to Start Message
             if (!isGameStarted) {
                 paint.setTextSize(80);
